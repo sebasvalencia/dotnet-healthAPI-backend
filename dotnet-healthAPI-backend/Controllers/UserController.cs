@@ -29,7 +29,7 @@ namespace dotnet_healthAPI_backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable>> GetUsers()
         {
-            return Ok(await _usersService.GetAllUsersService());
+            return Ok(await _usersService.GetAllPatients());
         }
 
 
@@ -37,7 +37,7 @@ namespace dotnet_healthAPI_backend.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUserById(int id)
         {
-            return Ok(await _usersService.GetUserServiceById(id));
+            return Ok(await _usersService.GetPatientById(id));
         }
 
         // POST: api/User

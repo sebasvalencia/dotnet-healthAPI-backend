@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using System.Collections;
+using System.Linq;
 using System.Threading.Tasks;
+using dotnet_healthAPI_backend.DTO;
 
 namespace dotnet_healthAPI_backend.Services
 {
@@ -17,19 +19,20 @@ namespace dotnet_healthAPI_backend.Services
             _context = context;
         }
         
-        public async Task<ActionResult<IEnumerable>> GetAllUsersService()
+        public async Task<ActionResult<IEnumerable>> GetAllPatients()
         {
-            return  await _context.Users.ToListAsync();
+            var patients = await _context.Users.Where(c => c.Rol == 2).Select(x => UserToDTO(x)).ToListAsync();
+            return patients;
         }
 
-        public async Task<ActionResult<User>> GetUserServiceById(int id)
+        public async Task<ActionResult<UserDTO>> GetPatientById(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var patient = await _context.Users.FindAsync(id);
+            if (patient == null)
             {
-                return new User();
+                return new UserDTO();
             }
-            return user;
+            return UserToDTO(patient);
         }
 
         public async Task<ActionResult<User>> CreateUser(User user)
@@ -63,5 +66,16 @@ namespace dotnet_healthAPI_backend.Services
             await _context.SaveChangesAsync();
             return user;
         }
+
+        private static UserDTO UserToDTO(User user) =>
+        new UserDTO
+        {
+            Id = user.Id,
+            Name = user.Name,
+            Email = user.Email,
+            AvatarUrl = user.AvatarUrl,
+            Rol = user.Rol
+        };
+
     }
 }
