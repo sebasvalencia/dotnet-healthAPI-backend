@@ -1,4 +1,5 @@
 ﻿using dotnet_healthAPI_backend.Data;
+using dotnet_healthAPI_backend.Models;
 using dotnet_healthAPI_backend.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,14 @@ namespace dotnet_healthAPI_backend.Services
             return  await _context.Users.ToListAsync();
         }
 
-        
+        public async Task<ActionResult<User>> GetUserService(int id)
+        {
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return new User();
+            }
+            return user;
+        }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using dotnet_healthAPI_backend.Models;
 using dotnet_healthAPI_backend.Services;
 using dotnet_healthAPI_backend.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -15,28 +16,29 @@ namespace dotnet_healthAPI_backend.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UserController : ControllerBase
     {
         private readonly IUsersService _usersService;
 
-        public UsersController(IUsersService usersService)
+        public UserController(IUsersService usersService)
         {
             _usersService = usersService;
         }
 
-        // GET: api/Users
+        // GET: api/User
         [HttpGet]
         public async Task<ActionResult<IEnumerable>> GetUsers()
         {
             return Ok(await _usersService.GetAllUsersService());
         }
 
-        //// GET: api/Users/5
-        //[HttpGet("{id}", Name = "Get")]
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
+
+        // GET: api/User/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<User>> GetUser(int id)
+        {
+            return Ok(await _usersService.GetUserService(id));
+        }
 
         //// POST: api/Users
         //[HttpPost]

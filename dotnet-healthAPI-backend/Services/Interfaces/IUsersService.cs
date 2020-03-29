@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using dotnet_healthAPI_backend.Models;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections;
 using System.Threading.Tasks;
 
@@ -7,5 +8,6 @@ namespace dotnet_healthAPI_backend.Services.Interfaces
     public interface IUsersService
     {
         Task<ActionResult<IEnumerable>> GetAllUsersService();
+        Task<ActionResult<User>> GetUserService(int id);
     }
 }
