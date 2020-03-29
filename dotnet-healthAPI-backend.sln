@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotnet-healthAPI-backend", "dotnet-healthAPI-backend\dotnet-healthAPI-backend.csproj", "{91072FA6-A02D-4F39-9340-7968215C577E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotnet-healthAPI-backend", "dotnet-healthAPI-backend\dotnet-healthAPI-backend.csproj", "{91072FA6-A02D-4F39-9340-7968215C577E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -10,6 +10,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using dotnet_healthAPI_backend.Data;
+using dotnet_healthAPI_backend.Services;
+using dotnet_healthAPI_backend.Services.Interfaces;
 
 namespace dotnet_healthAPI_backend
 {
@@ -25,7 +29,16 @@ namespace dotnet_healthAPI_backend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Configure DB
+            services.AddDbContext<HealthAPIContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("HealthDatabase")));
+
+            //services.AddControllers().AddNewtonsoftJson(options =>
+            //    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            //);
             services.AddControllers();
+
+            // Configure DI for application services
+            services.AddScoped<IUsersService, UsersService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
