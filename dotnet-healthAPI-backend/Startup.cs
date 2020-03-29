@@ -39,6 +39,7 @@ namespace dotnet_healthAPI_backend
 
             // Configure DI for application services
             services.AddScoped<IUsersService, UsersService>();
+            services.AddScoped<ISicknessService, SicknessService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
