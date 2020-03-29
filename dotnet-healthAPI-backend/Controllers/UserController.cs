@@ -54,10 +54,11 @@ namespace dotnet_healthAPI_backend.Controllers
             return Ok(await _usersService.UpdateUser(id, user));
         }
 
-        //// DELETE: api/ApiWithActions/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+        // DELETE: api/ApiWithActions/5
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<User>> DeleteUser(int id)
+        {
+            return Ok(await _usersService.DeleteUser(id));
+        }
     }
 }

@@ -11,5 +11,6 @@ namespace dotnet_healthAPI_backend.Services.Interfaces
         Task<ActionResult<User>> GetUserServiceById(int id);
         Task<ActionResult<User>> CreateUser(User user);
         Task<ActionResult<User>> UpdateUser(int id, User user);
+        Task<ActionResult<User>> DeleteUser(int id);
     }
 }

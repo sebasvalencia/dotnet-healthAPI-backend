@@ -52,5 +52,16 @@ namespace dotnet_healthAPI_backend.Services
             return user;
         }
 
+        public async Task<ActionResult<User>> DeleteUser(int id)
+        {
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return new User();
+            }
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+            return user;
+        }
     }
 }
