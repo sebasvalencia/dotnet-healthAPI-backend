@@ -3,6 +3,7 @@ using dotnet_healthAPI_backend.Models;
 using dotnet_healthAPI_backend.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using System.Collections;
 using System.Threading.Tasks;
 
@@ -38,5 +39,18 @@ namespace dotnet_healthAPI_backend.Services
 
              return user;
         }
+
+        public async Task<ActionResult<User>> UpdateUser(int id, User user)
+        {
+            if (id != user.Id)
+            {
+                return new User();
+            }
+
+            _context.Entry(user).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return user;
+        }
+
     }
 }
