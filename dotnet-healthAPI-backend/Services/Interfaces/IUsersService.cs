@@ -9,5 +9,6 @@ namespace dotnet_healthAPI_backend.Services.Interfaces
     {
         Task<ActionResult<IEnumerable>> GetAllUsersService();
         Task<ActionResult<User>> GetUserServiceById(int id);
+        Task<ActionResult<User>> CreateUser(User user);
     }
 }

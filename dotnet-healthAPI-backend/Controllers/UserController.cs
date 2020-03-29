@@ -40,11 +40,12 @@ namespace dotnet_healthAPI_backend.Controllers
             return Ok(await _usersService.GetUserServiceById(id));
         }
 
-        //// POST: api/Users
-        //[HttpPost]
-        //public void Post([FromBody] string value)
-        //{
-        //}
+        // POST: api/User
+        [HttpPost]
+        public async Task<ActionResult<User>> CreateUser([FromBody]User user)
+        {
+            return Ok(await _usersService.CreateUser(user));
+        }
 
         //// PUT: api/Users/5
         //[HttpPut("{id}")]

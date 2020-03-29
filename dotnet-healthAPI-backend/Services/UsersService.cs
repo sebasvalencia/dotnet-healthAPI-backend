@@ -30,5 +30,13 @@ namespace dotnet_healthAPI_backend.Services
             }
             return user;
         }
+
+        public async Task<ActionResult<User>> CreateUser(User user)
+        {
+            _context.Users.Add(user);
+             await _context.SaveChangesAsync();
+
+             return user;
+        }
     }
 }
