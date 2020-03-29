@@ -21,7 +21,7 @@ namespace dotnet_healthAPI_backend.Services
             return  await _context.Users.ToListAsync();
         }
 
-        public async Task<ActionResult<User>> GetUserService(int id)
+        public async Task<ActionResult<User>> GetUserServiceById(int id)
         {
             var user = await _context.Users.FindAsync(id);
             if (user == null)

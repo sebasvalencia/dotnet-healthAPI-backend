@@ -35,9 +35,9 @@ namespace dotnet_healthAPI_backend.Controllers
 
         // GET: api/User/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<User>> GetUserById(int id)
         {
-            return Ok(await _usersService.GetUserService(id));
+            return Ok(await _usersService.GetUserServiceById(id));
         }
 
         //// POST: api/Users

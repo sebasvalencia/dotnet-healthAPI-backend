@@ -8,6 +8,6 @@ namespace dotnet_healthAPI_backend.Services.Interfaces
     public interface IUsersService
     {
         Task<ActionResult<IEnumerable>> GetAllUsersService();
-        Task<ActionResult<User>> GetUserService(int id);
+        Task<ActionResult<User>> GetUserServiceById(int id);
     }
 }
