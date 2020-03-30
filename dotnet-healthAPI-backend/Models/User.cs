@@ -16,5 +16,7 @@ namespace dotnet_healthAPI_backend.Models
         public string Password { get; set; }
         public int  Rol { get; set; }
 
+        public ICollection<UserSickness> UserSicknessUser { get; set; } = new List<UserSickness>();
+
     }
 }

@@ -12,5 +12,7 @@ namespace dotnet_healthAPI_backend.Models
         public string ScientificNotation { get; set; }
         public string Description { get; set; }
         public string ImageUrl { get; set; }
+        public ICollection<UserSickness> UserSicknessSickness { get; set; } = new List<UserSickness>();
+
     }
 }
