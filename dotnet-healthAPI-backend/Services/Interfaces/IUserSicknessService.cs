@@ -16,8 +16,8 @@ namespace dotnet_healthAPI_backend.Services.Interfaces
 
         Task<ActionResult<List<UserSickness>>> CreatePatientSickness(List<UserSickness> userSickness);
 
-        //Task<ActionResult<Sickness>> UpdateSickness(int idPatient, UserSickness sickness);
-        //Task<ActionResult<Sickness>> DeleteSickness(int idPatient, int idUserSickness);
-        
+        Task<ActionResult<List<UserSickness>>> UpdateUserSickness(List <UserSickness> userSickness);
+        Task<ActionResult<UserSickness>> DeleteUserSickness(int idUserSickness); //int idPatient, int idUserSickness
+
     }
 }

@@ -16,7 +16,7 @@ namespace dotnet_healthAPI_backend.Models
         public int SicknessId { get; set; }
 
         //Relationships
-        //public User User { get; set; }
-        //public Sickness Sickness { get; set; }
+        public User User { get; set; }
+        public Sickness Sickness { get; set; }
     }
 }

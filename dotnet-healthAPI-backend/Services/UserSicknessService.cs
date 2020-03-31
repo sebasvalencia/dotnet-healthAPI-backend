@@ -21,53 +21,54 @@ namespace dotnet_healthAPI_backend.Services
 
         public async Task<ActionResult<IEnumerable>> GetAllPatientSickness()
         {
-
-            return await (from us in _context.UserSickness
-                          join u in _context.Users on us.UserId equals u.Id
-                          join s in _context.Sickness on us.SicknessId equals s.Id
-                          select new
-                          {
-                              IdUser = us.UserId,
-                              NameUser = u.Name,
-                              IdSickness = s.Id,
-                              NameSickness = s.Name
-                          }).ToListAsync();
+            return await _context.UserSickness.ToListAsync();
         }
 
         public async Task<ActionResult<IEnumerable>> GetAllSicknessByPatient(int idPatient)
         {
-
-            return await (from us in _context.UserSickness
-                          join u in _context.Users on us.UserId equals u.Id
-                          join s in _context.Sickness on us.SicknessId equals s.Id
-                          where us.UserId == idPatient
-                          select new
-                          {
-                              IdUser = us.UserId,
-                              NameUser = u.Name,
-                              IdSickness = s.Id,
-                              NameSickness = s.Name
-                          }).ToListAsync();
+            return await _context.UserSickness.Where(c => c.UserId == idPatient).ToListAsync();
         }
 
 
         public async Task<ActionResult<List<UserSickness>>> CreatePatientSickness(List<UserSickness> userSickness)
         {
-            foreach(UserSickness us in userSickness)
+            foreach (var us in userSickness)
             {
-                var user = await _context.Users.SingleOrDefaultAsync(user => user.Id == us.UserId);
-                var sick = await _context.Sickness.SingleOrDefaultAsync(sick => sick.Id == us.SicknessId);
-
-                if (user != null && sick != null)
-                {
-                    _context.UserSickness.Add(us);
-                    await _context.SaveChangesAsync();
-
-                }
+                _context.UserSickness.Add(us);
+                await _context.SaveChangesAsync();
             }
-            
+            return userSickness;           
+        }
+
+        public async Task<ActionResult<List<UserSickness>>> UpdateUserSickness(List<UserSickness> userSickness)
+        {
+            foreach(var us in userSickness)
+            {
+                var existingUserSickness = await _context.UserSickness.FirstAsync(a => a.Id == us.Id);
+                if (existingUserSickness != null)
+                {
+                    _context.Entry(existingUserSickness).CurrentValues.SetValues(us);
+                    await _context.SaveChangesAsync();
+                }
+                //_context.Entry(us).State = EntityState.Modified;
+                //await _context.SaveChangesAsync();
+            }
             return userSickness;
+
             
         }
+
+        public async Task<ActionResult<UserSickness>> DeleteUserSickness(int IdUserSickness)
+        {
+            var userSickness = await _context.UserSickness.FindAsync(IdUserSickness);
+            if (userSickness == null)
+            {
+                return new UserSickness();
+            }
+            _context.UserSickness.Remove(userSickness);
+            await _context.SaveChangesAsync();
+            return userSickness;
+        }
+
     }
 }

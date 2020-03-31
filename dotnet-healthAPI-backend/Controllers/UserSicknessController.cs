@@ -82,16 +82,18 @@ namespace dotnet_healthAPI_backend.Controllers
 
 
 
-        //// PUT: api/UserSickness/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
+        // PUT: api/UserSickness/5
+        [HttpPut("{idUser}")]
+        public async Task<ActionResult<UserSickness>> UpdateUserSickness(int idUser, [FromBody] List<UserSickness> userSicknesses)
+        {
+            return Ok(await _userSicknessService.UpdateUserSickness(userSicknesses));
+        }
 
-        //// DELETE: api/ApiWithActions/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
-    }
+        // DELETE: api/UserSickness/5
+        [HttpDelete("{idUserSickness}")]
+        public async Task<ActionResult<User>> DeleteUserSickness(int idUserSickness)
+        {
+            return Ok(await _userSicknessService.DeleteUserSickness(idUserSickness));
+        }
+    }     
 }
