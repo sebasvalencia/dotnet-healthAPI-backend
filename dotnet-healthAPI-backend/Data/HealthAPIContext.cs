@@ -17,6 +17,9 @@ namespace dotnet_healthAPI_backend.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Sickness> Sickness { get; set; }
         public DbSet<UserSickness> UserSickness { get; set; }
+        public DbSet<MedicalHistory> MedicalHistory { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,6 +29,11 @@ namespace dotnet_healthAPI_backend.Data
                 HasOne(x => x.User).WithMany(x => x.UserSicknessUser).HasForeignKey(x => x.UserId);
             modelBuilder.Entity<UserSickness>().
                 HasOne(x => x.Sickness).WithMany(x => x.UserSicknessSickness).HasForeignKey(x => x.SicknessId);
+
+            // configures one-to-many relationship
+            modelBuilder.Entity<User>()
+                .HasMany(c => c.MedicalHistories)
+                .WithOne(e => e.User);
 
         }
 

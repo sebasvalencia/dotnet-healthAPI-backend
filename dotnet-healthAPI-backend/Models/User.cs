@@ -18,5 +18,6 @@ namespace dotnet_healthAPI_backend.Models
 
         public ICollection<UserSickness> UserSicknessUser { get; set; } = new List<UserSickness>();
 
+        public ICollection<MedicalHistory> MedicalHistories { get; set; }
     }
 }

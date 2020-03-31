@@ -41,6 +41,7 @@ namespace dotnet_healthAPI_backend
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<ISicknessService, SicknessService>();
             services.AddScoped<IUserSicknessService, UserSicknessService>();
+            services.AddScoped<IMedicalHistoryService, MedicalHistoryService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
