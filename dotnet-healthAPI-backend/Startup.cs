@@ -36,6 +36,7 @@ namespace dotnet_healthAPI_backend
             //    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             //);
             services.AddControllers();
+            services.AddCors();
 
             // Configure DI for application services
             services.AddScoped<IUsersService, UsersService>();

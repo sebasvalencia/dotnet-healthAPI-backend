@@ -37,7 +37,6 @@ namespace dotnet_healthAPI_backend.Controllers
             {
                 return BadRequest();
             }
-            return Ok();
         }
 
         // POST: api/MedicalHistory

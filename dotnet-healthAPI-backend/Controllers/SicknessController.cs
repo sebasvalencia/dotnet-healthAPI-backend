@@ -24,35 +24,80 @@ namespace dotnet_healthAPI_backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable>> GetAllSickness()
         {
-            return Ok(await _sicknessService.GetAllSickness());
+            try
+            {
+                return Ok(await _sicknessService.GetAllSickness());
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         // GET: api/Sickness/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Sickness>> GetSicknessById(int id)
         {
-            return Ok(await _sicknessService.GetSicknessById(id));
+            try
+            {
+                return Ok(await _sicknessService.GetSicknessById(id));
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         // POST: api/Sickness
         [HttpPost]
         public async Task<ActionResult<Sickness>> CreateSickness([FromBody] Sickness sickness)
         {
-            return Ok(await _sicknessService.CreateSickness(sickness));
+            try
+            {
+                return Ok(await _sicknessService.CreateSickness(sickness));
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         // PUT: api/Sickness/5
         [HttpPut("{id}")]
         public async Task<ActionResult<User>> UpdateSickness(int id, [FromBody] Sickness sickness)
         {
-            return Ok(await _sicknessService.UpdateSickness(id, sickness));
+            try
+            {
+                var updateSickness = await _sicknessService.UpdateSickness(id, sickness);
+                if (updateSickness is null)
+                {
+                    return NotFound();
+                }
+                return Ok(updateSickness);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Sickness>> DeleteSickness(int id)
         {
-            return Ok(await _sicknessService.DeleteSickness(id));
+            try
+            {
+                var deleteSickness = await _sicknessService.DeleteSickness(id);
+                if (deleteSickness is null)
+                {
+                    return NotFound();
+                }
+                return Ok(deleteSickness);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
     }
 }

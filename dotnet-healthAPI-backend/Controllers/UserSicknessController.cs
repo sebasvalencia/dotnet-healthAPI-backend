@@ -26,13 +26,7 @@ namespace dotnet_healthAPI_backend.Controllers
         {
             try
             {
-                var patientsSickness = await _userSicknessService.GetAllPatientSickness();
-                if (patientsSickness is null)
-                {
-                    return NotFound();
-                }
-                return Ok(patientsSickness);
-
+                return Ok(await _userSicknessService.GetAllPatientSickness());
             }
             catch (Exception)
             {
@@ -46,13 +40,7 @@ namespace dotnet_healthAPI_backend.Controllers
         {
             try
             {
-                var patientSickness = await _userSicknessService.GetAllSicknessByPatient(id);
-                if (patientSickness is null)
-                {
-                    return NotFound();
-                }
-                return Ok(patientSickness);
-
+                return Ok(await _userSicknessService.GetAllSicknessByPatient(id));
             }
             catch (Exception)
             {
@@ -62,17 +50,11 @@ namespace dotnet_healthAPI_backend.Controllers
 
         // POST: api/UserSickness
         [HttpPost]
-        public async Task<ActionResult<UserSickness>> CreatePatientSickness([FromBody]  List<UserSickness> userSickness)
+        public async Task<ActionResult<UserSickness>> CreateUserSickness([FromBody]  List<UserSickness> userSickness)
         {
             try
             {
-                var patientSickness = await _userSicknessService.CreatePatientSickness(userSickness);
-                if (patientSickness is null)
-                {
-                    return NotFound();
-                }
-                return Ok(patientSickness);
-
+                return Ok (await _userSicknessService.CreateUserSickness(userSickness));
             }
             catch (Exception)
             {
@@ -80,20 +62,42 @@ namespace dotnet_healthAPI_backend.Controllers
             }
         }
 
-
-
         // PUT: api/UserSickness/5
         [HttpPut("{idUser}")]
         public async Task<ActionResult<UserSickness>> UpdateUserSickness(int idUser, [FromBody] List<UserSickness> userSicknesses)
         {
-            return Ok(await _userSicknessService.UpdateUserSickness(userSicknesses));
+            try
+            {
+                var userSickness = await _userSicknessService.UpdateUserSickness(userSicknesses);
+                if (userSickness is null)
+                {
+                    return NotFound();
+                }
+                return Ok(userSickness);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         // DELETE: api/UserSickness/5
         [HttpDelete("{idUserSickness}")]
         public async Task<ActionResult<User>> DeleteUserSickness(int idUserSickness)
         {
-            return Ok(await _userSicknessService.DeleteUserSickness(idUserSickness));
+            try
+            {
+                var userSickness = await _userSicknessService.DeleteUserSickness(idUserSickness);
+                if (userSickness is null)
+                {
+                    return NotFound();
+                }
+                return Ok(userSickness);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
     }     
 }

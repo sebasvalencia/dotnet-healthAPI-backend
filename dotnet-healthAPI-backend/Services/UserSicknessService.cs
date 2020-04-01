@@ -30,7 +30,7 @@ namespace dotnet_healthAPI_backend.Services
         }
 
 
-        public async Task<ActionResult<List<UserSickness>>> CreatePatientSickness(List<UserSickness> userSickness)
+        public async Task<ActionResult<List<UserSickness>>> CreateUserSickness(List<UserSickness> userSickness)
         {
             foreach (var us in userSickness)
             {

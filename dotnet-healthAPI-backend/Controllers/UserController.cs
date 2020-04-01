@@ -29,36 +29,80 @@ namespace dotnet_healthAPI_backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable>> GetUsers()
         {
-            return Ok(await _usersService.GetAllPatients());
+            try
+            {
+                return Ok(await _usersService.GetAllPatients());
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
-
 
         // GET: api/User/5
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUserById(int id)
         {
-            return Ok(await _usersService.GetPatientById(id));
+            try
+            {
+                return Ok(await _usersService.GetPatientById(id));
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         // POST: api/User
         [HttpPost]
         public async Task<ActionResult<User>> CreateUser([FromBody]User user)
         {
-            return Ok(await _usersService.CreateUser(user));
+            try
+            {
+                return Ok( await _usersService.CreateUser(user));
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         // PUT: api/User/5
         [HttpPut("{id}")]
         public async Task<ActionResult<User>> UpdateUser(int id, [FromBody] User user)
         {
-            return Ok(await _usersService.UpdateUser(id, user));
+            try
+            {
+                var updateUser = await _usersService.UpdateUser(id, user);
+                if (updateUser is null)
+                {
+                    return NotFound();
+                }
+                return Ok(updateUser);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
-        // DELETE: api/ApiWithActions/5
+        // DELETE: api/User/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<User>> DeleteUser(int id)
         {
-            return Ok(await _usersService.DeleteUser(id));
+            try
+            {
+                var user = await _usersService.DeleteUser(id);
+                if (user is null)
+                {
+                    return NotFound();
+                }
+                return Ok(user);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
     }
 }
