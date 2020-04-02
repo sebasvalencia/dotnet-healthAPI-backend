@@ -8,6 +8,8 @@ using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 using dotnet_healthAPI_backend.DTO;
+using System.Collections.Generic;
+using System;
 
 namespace dotnet_healthAPI_backend.Services
 {
@@ -21,8 +23,46 @@ namespace dotnet_healthAPI_backend.Services
         
         public async Task<ActionResult<IEnumerable>> GetAllPatients()
         {
-            var patients = await _context.Users.Where(c => c.Rol == 2).Select(x => UserToDTO(x)).ToListAsync();
-            return patients;
+            var infoPatient = new List<UserDTO>();
+
+            var allPatients = await(from u in _context.Users
+                          join us in _context.UserSickness on u.Id equals us.UserId
+                          join s in _context.Sickness on us.SicknessId equals s.Id
+                          //where u.Rol == 2
+                          select new
+                          {
+                              IdUser = u.Id,
+                              NameUser = u.Name,
+                              u.AvatarUrl,
+                              u.Rol,
+                              s.Id,
+                              s.Name,
+                              s.ScientificNotation,
+                              s.Description,
+                              s.ImageUrl
+                          }).ToListAsync();
+
+            foreach (var item in allPatients)
+            {
+                var user = new UserDTO(item.IdUser, item.NameUser, item.AvatarUrl, item.Rol);
+
+                if (infoPatient.Where(p => p.Id == user.Id).ToList().Count == 0)
+                {
+                    var sicks = (from value in allPatients
+                                 where value.IdUser == user.Id
+                                 select new SicknessDTO
+                                 {
+                                     Id = value.Id,
+                                     Name = value.Name,
+                                     ScientificNotation = value.ScientificNotation,
+                                     Description = value.Description,
+                                     ImageUrl = value.ImageUrl
+                                 }).ToList();
+                    user.ListSickness = sicks;
+                    infoPatient.Add(user);
+                }
+            }
+            return infoPatient;
         }
 
         public async Task<ActionResult<UserDTO>> GetPatientById(int id)
