@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using dotnet_healthAPI_backend.DTO;
 using dotnet_healthAPI_backend.Models;
 using dotnet_healthAPI_backend.Services;
 using dotnet_healthAPI_backend.Services.Interfaces;
@@ -27,7 +28,22 @@ namespace dotnet_healthAPI_backend.Controllers
 
         // GET: api/User
         [HttpGet]
-        public async Task<ActionResult<IEnumerable>> GetUsers()
+        public async Task<ActionResult<IEnumerable>> GetAllPatientsWithSickness()
+        {
+            try
+            {
+                return Ok(await _usersService.GetAllPatientsWithSickness());
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        // GET: api/User
+        [Route("patients")]
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable>> GetAllPatients()
         {
             try
             {
@@ -55,7 +71,7 @@ namespace dotnet_healthAPI_backend.Controllers
 
         // POST: api/User
         [HttpPost]
-        public async Task<ActionResult<User>> CreateUser([FromBody]User user)
+        public async Task<ActionResult<UserDTO>> CreateUser([FromBody]User user)
         {
             try
             {
@@ -68,12 +84,12 @@ namespace dotnet_healthAPI_backend.Controllers
         }
 
         // PUT: api/User/5
-        [HttpPut("{id}")]
-        public async Task<ActionResult<User>> UpdateUser(int id, [FromBody] User user)
+        [HttpPut]
+        public async Task<ActionResult<UserDTO>> UpdateUser([FromBody] User user)
         {
             try
             {
-                var updateUser = await _usersService.UpdateUser(id, user);
+                var updateUser = await _usersService.UpdateUser(user);
                 if (updateUser is null)
                 {
                     return NotFound();
@@ -87,17 +103,32 @@ namespace dotnet_healthAPI_backend.Controllers
         }
 
         // DELETE: api/User/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<User>> DeleteUser(int id)
+        [HttpDelete]
+        public async Task<ActionResult<User>> DeleteUser(User user)
         {
             try
             {
-                var user = await _usersService.DeleteUser(id);
-                if (user is null)
+                var userDelete = await _usersService.DeleteUser(user);
+                if (userDelete is null)
                 {
                     return NotFound();
                 }
                 return Ok(user);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        // POST: api/User/login
+        [Route("login")]
+        [HttpPost]
+        public async Task<ActionResult<bool>> LoginUser([FromBody]Credentials credentials)
+        {
+            try
+            {
+                return Ok(await _usersService.LoginUser(credentials));
             }
             catch (Exception)
             {

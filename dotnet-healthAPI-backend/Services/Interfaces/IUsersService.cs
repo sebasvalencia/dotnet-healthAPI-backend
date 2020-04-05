@@ -8,10 +8,12 @@ namespace dotnet_healthAPI_backend.Services.Interfaces
 {
     public interface IUsersService
     {
+        Task<ActionResult<IEnumerable>> GetAllPatientsWithSickness();
         Task<ActionResult<IEnumerable>> GetAllPatients();
         Task<ActionResult<UserDTO>> GetPatientById(int id);
-        Task<ActionResult<User>> CreateUser(User user);
-        Task<ActionResult<User>> UpdateUser(int id, User user);
-        Task<ActionResult<User>> DeleteUser(int id);
+        Task<ActionResult<UserDTO>> CreateUser(User user);
+        Task<ActionResult<UserDTO>> UpdateUser(User user);
+        Task<ActionResult<UserDTO>> DeleteUser(User user);
+        Task<ActionResult<bool>> LoginUser(Credentials credentials);
     }
 }

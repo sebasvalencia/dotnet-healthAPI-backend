@@ -21,14 +21,14 @@ namespace dotnet_healthAPI_backend.Services
             _context = context;
         }
         
-        public async Task<ActionResult<IEnumerable>> GetAllPatients()
+        public async Task<ActionResult<IEnumerable>> GetAllPatientsWithSickness()
         {
             var infoPatient = new List<UserDTO>();
 
             var allPatients = await(from u in _context.Users
                           join us in _context.UserSickness on u.Id equals us.UserId
                           join s in _context.Sickness on us.SicknessId equals s.Id
-                          //where u.Rol == 2
+                          where u.Rol == 2
                           select new
                           {
                               IdUser = u.Id,
@@ -65,6 +65,10 @@ namespace dotnet_healthAPI_backend.Services
             return infoPatient;
         }
 
+        public async Task<ActionResult<IEnumerable>> GetAllPatients()
+        {
+            return await _context.Users.Where(c => c.Rol == 2).Select(x => UserToDTO(x)).ToListAsync();
+        }
         public async Task<ActionResult<UserDTO>> GetPatientById(int id)
         {
             var patient = await _context.Users.FindAsync(id);
@@ -75,38 +79,39 @@ namespace dotnet_healthAPI_backend.Services
             return UserToDTO(patient);
         }
 
-        public async Task<ActionResult<User>> CreateUser(User user)
+        public async Task<ActionResult<UserDTO>> CreateUser(User user)
         {
             _context.Users.Add(user);
              await _context.SaveChangesAsync();
-
-             return user;
+             return UserToDTO(user);
         }
 
-        public async Task<ActionResult<User>> UpdateUser(int id, User user)
+        public async Task<ActionResult<UserDTO>> UpdateUser( User user)
         {
-            if (id != user.Id)
-            {
-                return new User();
-            }
-
             _context.Entry(user).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-            return user;
+            return UserToDTO(user);
         }
 
-        public async Task<ActionResult<User>> DeleteUser(int id)
+        public async Task<ActionResult<UserDTO>> DeleteUser(User user)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var userDelete = await _context.Users.FindAsync(user.Id);
+            if (userDelete == null)
             {
-                return new User();
+                return new UserDTO();
             }
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
-            return user;
+            return UserToDTO(user);
         }
 
+        public async Task<ActionResult<bool>> LoginUser(Credentials credentials)
+        {
+            var userEmail = await _context.Users.Where(x => x.Email == credentials.Email && x.Rol == 1).ToListAsync();
+            var userPassword = await _context.Users.Where(x => x.Password == credentials.Password && x.Rol == 1).ToListAsync();
+
+            return (userEmail.Count > 0 && userPassword.Count > 0) ? true : false; 
+        }
         private static UserDTO UserToDTO(User user) =>
         new UserDTO
         {
@@ -117,5 +122,6 @@ namespace dotnet_healthAPI_backend.Services
             Rol = user.Rol
         };
 
+        
     }
 }
