@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using dotnet_healthAPI_backend.DTO;
 using dotnet_healthAPI_backend.Models;
 using dotnet_healthAPI_backend.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -36,7 +37,7 @@ namespace dotnet_healthAPI_backend.Controllers
 
         // GET: api/Sickness/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Sickness>> GetSicknessById(int id)
+        public async Task<ActionResult<SicknessDTO>> GetSicknessById(int id)
         {
             try
             {
@@ -50,7 +51,7 @@ namespace dotnet_healthAPI_backend.Controllers
 
         // POST: api/Sickness
         [HttpPost]
-        public async Task<ActionResult<Sickness>> CreateSickness([FromBody] Sickness sickness)
+        public async Task<ActionResult<SicknessDTO>> CreateSickness([FromBody] Sickness sickness)
         {
             try
             {
@@ -62,13 +63,13 @@ namespace dotnet_healthAPI_backend.Controllers
             }
         }
 
-        // PUT: api/Sickness/5
-        [HttpPut("{id}")]
-        public async Task<ActionResult<User>> UpdateSickness(int id, [FromBody] Sickness sickness)
+        // PUT: api/Sickness
+        [HttpPut]
+        public async Task<ActionResult<SicknessDTO>> UpdateSickness([FromBody] Sickness sickness)
         {
             try
             {
-                var updateSickness = await _sicknessService.UpdateSickness(id, sickness);
+                var updateSickness = await _sicknessService.UpdateSickness(sickness);
                 if (updateSickness is null)
                 {
                     return NotFound();
@@ -83,7 +84,7 @@ namespace dotnet_healthAPI_backend.Controllers
 
         // DELETE: api/Sickness/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Sickness>> DeleteSickness(int id)
+        public async Task<ActionResult<SicknessDTO>> DeleteSickness(int id)
         {
             try
             {

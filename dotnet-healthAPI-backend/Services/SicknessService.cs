@@ -1,4 +1,5 @@
 ﻿using dotnet_healthAPI_backend.Data;
+using dotnet_healthAPI_backend.DTO;
 using dotnet_healthAPI_backend.Models;
 using dotnet_healthAPI_backend.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -21,49 +22,68 @@ namespace dotnet_healthAPI_backend.Services
 
         public async Task<ActionResult<IEnumerable>> GetAllSickness()
         {
-            return await _context.Sickness.ToListAsync();
+            List<SicknessDTO> list = new List<SicknessDTO>();
+            var sickness = await _context.Sickness.ToListAsync();
+            foreach (var item in sickness)
+            {
+                list.Add(SicknessToDTO(item));
+            }
+            return list;
         }
 
-        public async Task<ActionResult<Sickness>> GetSicknessById(int id)
+        public async Task<ActionResult<SicknessDTO>> GetSicknessById(int id)
         {
             var sickness = await _context.Sickness.FindAsync(id);
             if (sickness == null)
             {
-                return new Sickness();
+                return new SicknessDTO();
             }
-            return sickness;
+            return SicknessToDTO(sickness);
         }
 
-        public async Task<ActionResult<Sickness>> CreateSickness(Sickness sickness)
+        public async Task<ActionResult<SicknessDTO>> CreateSickness(Sickness sickness)
         {
             _context.Sickness.Add(sickness);
             await _context.SaveChangesAsync();
 
-            return sickness;
+            return SicknessToDTO(sickness);
         }
 
-        public async Task<ActionResult<Sickness>> UpdateSickness(int id, Sickness sickness)
+        public async Task<ActionResult<SicknessDTO>> UpdateSickness(Sickness sickness)
         {
-            if (id != sickness.Id)
+            try
             {
-                return new Sickness();
+                _context.Entry(sickness).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+                return SicknessToDTO(sickness);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Record cannot updated", ex);
             }
 
-            _context.Entry(sickness).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-            return sickness;
         }
 
-        public async Task<ActionResult<Sickness>> DeleteSickness(int id)
+        public async Task<ActionResult<SicknessDTO>> DeleteSickness(int id)
         {
             var sickness = await _context.Sickness.FindAsync(id);
             if (sickness == null)
             {
-                return new Sickness();
+                return new SicknessDTO();
             }
             _context.Sickness.Remove(sickness);
             await _context.SaveChangesAsync();
-            return sickness;
+            return SicknessToDTO(sickness);
         }
+
+        private static SicknessDTO SicknessToDTO(Sickness sickness) =>
+        new SicknessDTO
+        {
+            Id = sickness.Id,
+            Name = sickness.Name,
+            ScientificNotation = sickness.ScientificNotation,
+            Description = sickness.Description,
+            ImageUrl = sickness.ImageUrl
+        };
     }
 }
