@@ -104,16 +104,12 @@ namespace dotnet_healthAPI_backend.Controllers
 
         // DELETE: api/User/5
         [HttpDelete]
-        public async Task<ActionResult<User>> DeleteUser(User user)
+        public async Task<ActionResult<bool>> DeleteUser(User user)
         {
             try
             {
                 var userDelete = await _usersService.DeleteUser(user);
-                if (userDelete is null)
-                {
-                    return NotFound();
-                }
-                return Ok(user);
+                return Ok(userDelete);
             }
             catch (Exception)
             {

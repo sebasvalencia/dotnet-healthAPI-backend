@@ -81,7 +81,7 @@ namespace dotnet_healthAPI_backend.Controllers
             }
         }
 
-        // DELETE: api/ApiWithActions/5
+        // DELETE: api/Sickness/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Sickness>> DeleteSickness(int id)
         {

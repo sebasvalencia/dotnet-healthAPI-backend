@@ -93,16 +93,18 @@ namespace dotnet_healthAPI_backend.Services
             return UserToDTO(user);
         }
 
-        public async Task<ActionResult<UserDTO>> DeleteUser(User user)
+        public async Task<ActionResult<bool>> DeleteUser(User user)
         {
-            var userDelete = await _context.Users.FindAsync(user.Id);
-            if (userDelete == null)
+            try
             {
-                return new UserDTO();
+                _context.Users.Remove(user);
+                await _context.SaveChangesAsync();
+                return true;
             }
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
-            return UserToDTO(user);
+            catch (Exception ex)
+            {
+                throw new Exception("Record cannot deleted", ex);
+            }
         }
 
         public async Task<ActionResult<bool>> LoginUser(Credentials credentials)

@@ -13,7 +13,7 @@ namespace dotnet_healthAPI_backend.Services.Interfaces
         Task<ActionResult<UserDTO>> GetPatientById(int id);
         Task<ActionResult<UserDTO>> CreateUser(User user);
         Task<ActionResult<UserDTO>> UpdateUser(User user);
-        Task<ActionResult<UserDTO>> DeleteUser(User user);
+        Task<ActionResult<bool>> DeleteUser(User user);
         Task<ActionResult<bool>> LoginUser(Credentials credentials);
     }
 }

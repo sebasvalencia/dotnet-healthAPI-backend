@@ -33,7 +33,10 @@ namespace dotnet_healthAPI_backend.Data
             // configures one-to-many relationship
             modelBuilder.Entity<User>()
                 .HasMany(c => c.MedicalHistories)
-                .WithOne(e => e.User);
+                .WithOne(e => e.User)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
 
         }
 
