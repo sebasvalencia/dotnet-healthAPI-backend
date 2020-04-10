@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,36 +25,33 @@ namespace dotnet_healthAPI_backend.Services
             return await _context.MedicalHistory.Where(c => c.UserId == idUser).ToListAsync();
         }
 
-        public async Task<ActionResult<MedicalHistory>> CreateMedicalHistoryByUserId(MedicalHistory medicalHistory)
+        public async Task<ActionResult<MedicalHistory>> CreateMedicalHistoryByUser(MedicalHistory medicalHistory)
         {
-            _context.MedicalHistory.Add(medicalHistory);
-            await _context.SaveChangesAsync();
 
+            var ususave = _context.MedicalHistory.Add(medicalHistory);
+             await _context.SaveChangesAsync();
             return medicalHistory;
         }
 
-        public async Task<ActionResult<MedicalHistory>> UpdateMedicalHistoryByUserId(int idUser, MedicalHistory medicalHistory)
+        public async Task<ActionResult<MedicalHistory>> UpdateMedicalHistoryByUser(MedicalHistory medicalHistory)
         {
-            if (idUser != medicalHistory.UserId)
-            {
-                return new MedicalHistory();
-            }
-
             _context.Entry(medicalHistory).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return medicalHistory;
         }
 
-        public async Task<ActionResult<MedicalHistory>> DeleteMedicalHistoryByUserId(int id)
+        public async Task<ActionResult<bool>> DeleteMedicalHistoryByUser(int idMedicalHistory)
         {
-            var medicalHistory = await _context.MedicalHistory.FindAsync(id);
-            if (medicalHistory  == null)
+            try
             {
-                return new MedicalHistory();
+                var medicalHistory = await _context.MedicalHistory.FindAsync(idMedicalHistory);
+                _context.MedicalHistory.Remove(medicalHistory);
+                await _context.SaveChangesAsync();
+                return true;
+            }catch(Exception ex)
+            {
+                throw new Exception("Record cannot deleted", ex);
             }
-            _context.MedicalHistory.Remove(medicalHistory);
-            await _context.SaveChangesAsync();
-            return medicalHistory;
         }
     }
 }

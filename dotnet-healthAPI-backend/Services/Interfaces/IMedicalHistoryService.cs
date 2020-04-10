@@ -11,8 +11,8 @@ namespace dotnet_healthAPI_backend.Services.Interfaces
     public interface IMedicalHistoryService
     {
         Task<ActionResult<IEnumerable>> GetAllMedicalHistoryById(int idUser);
-        Task<ActionResult<MedicalHistory>> CreateMedicalHistoryByUserId(MedicalHistory medicalHistory);
-        Task<ActionResult<MedicalHistory>> UpdateMedicalHistoryByUserId(int idUser, MedicalHistory medicalHistory);
-        Task<ActionResult<MedicalHistory>> DeleteMedicalHistoryByUserId(int id);
+        Task<ActionResult<MedicalHistory>> CreateMedicalHistoryByUser(MedicalHistory medicalHistory);
+        Task<ActionResult<MedicalHistory>> UpdateMedicalHistoryByUser(MedicalHistory medicalHistory);
+        Task<ActionResult<bool>> DeleteMedicalHistoryByUser(int idMedicalHistory);
     }
 }

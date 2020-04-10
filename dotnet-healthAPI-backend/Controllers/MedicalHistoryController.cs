@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,16 +23,13 @@ namespace dotnet_healthAPI_backend.Controllers
 
         // GET: api/MedicalHistory/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<MedicalHistory>> GetMedicalHistoryByUserId(int id)
+        public async Task<ActionResult<IEnumerable>> GetMedicalHistoryByUserId(int id)
         {
             try
             {
-                var createdMedicalHistory = await _medicalHistoryService.GetAllMedicalHistoryById(id);
-                if (createdMedicalHistory is null)
-                {
-                    return new MedicalHistory();
-                }
-                return Ok(createdMedicalHistory);
+                var getMedicalHistory = await _medicalHistoryService.GetAllMedicalHistoryById(id);
+              
+                return Ok(getMedicalHistory);
             }
             catch (Exception)
             {
@@ -45,7 +43,7 @@ namespace dotnet_healthAPI_backend.Controllers
         {
             try
             {
-                var createdMedicalHistory = await _medicalHistoryService.CreateMedicalHistoryByUserId(medicalHistory);
+                var createdMedicalHistory = await _medicalHistoryService.CreateMedicalHistoryByUser(medicalHistory);
                 if (createdMedicalHistory is null)
                 {
                     return NotFound();
@@ -58,13 +56,13 @@ namespace dotnet_healthAPI_backend.Controllers
             }
         }
 
-        // PUT: api/MedicalHistory/5
-        [HttpPut("{idUser}")]
-        public async Task<ActionResult<MedicalHistory>> UpdateMedicalHistoryByUserId(int idUser, [FromBody] MedicalHistory medicalHistory)
+        // PUT: api/MedicalHistory
+        [HttpPut]
+        public async Task<ActionResult<MedicalHistory>> UpdateMedicalHistoryByUser([FromBody] MedicalHistory medicalHistory)
         {
             try
             {
-                var updatedMedicalHistory = await _medicalHistoryService.UpdateMedicalHistoryByUserId(idUser, medicalHistory);
+                var updatedMedicalHistory = await _medicalHistoryService.UpdateMedicalHistoryByUser(medicalHistory);
                 if (updatedMedicalHistory is null)
                 {
                     return NotFound();
@@ -78,17 +76,17 @@ namespace dotnet_healthAPI_backend.Controllers
         }
 
         // DELETE: api/MedicalHistory/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<User>> DeleteMedicalHistoryByUserId(int id)
+        [HttpDelete("{idMedicalHistory}")]
+        public async Task<ActionResult<bool>> DeleteMedicalHistoryByUser(int idMedicalHistory)
         {
             try
             {
-                var medicalHistory = await _medicalHistoryService.DeleteMedicalHistoryByUserId(id);
-                if (medicalHistory is null)
+                var deletedMedicalHistory = await _medicalHistoryService.DeleteMedicalHistoryByUser(idMedicalHistory);
+                if (deletedMedicalHistory is null)
                 {
                     return NotFound();
                 }
-                return Ok(medicalHistory);
+                return Ok(deletedMedicalHistory);
             }
             catch (Exception)
             {
