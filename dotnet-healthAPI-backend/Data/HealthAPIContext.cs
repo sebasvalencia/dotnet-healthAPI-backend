@@ -18,7 +18,7 @@ namespace dotnet_healthAPI_backend.Data
         public DbSet<Sickness> Sickness { get; set; }
         public DbSet<UserSickness> UserSickness { get; set; }
         public DbSet<MedicalHistory> MedicalHistory { get; set; }
-
+        public DbSet<Wellness> Wellness { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
