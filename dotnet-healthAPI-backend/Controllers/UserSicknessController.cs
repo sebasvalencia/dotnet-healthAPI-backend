@@ -35,12 +35,12 @@ namespace dotnet_healthAPI_backend.Controllers
         }
 
         // GET: api/UserSickness/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<IEnumerable>> GetAllSicknessByPatient(int id)
+        [HttpGet("{idPatient}")]
+        public async Task<ActionResult<IEnumerable>> GetPatientSickness(int idPatient)
         {
             try
             {
-                return Ok(await _userSicknessService.GetAllSicknessByPatient(id));
+                return Ok(await _userSicknessService.GetPatientSickness(idPatient));
             }
             catch (Exception)
             {
@@ -50,7 +50,7 @@ namespace dotnet_healthAPI_backend.Controllers
 
         // POST: api/UserSickness
         [HttpPost]
-        public async Task<ActionResult<UserSickness>> CreateUserSickness([FromBody]  List<UserSickness> userSickness)
+        public async Task<ActionResult<UserSickness>> CreateUserSickness([FromBody]  UserSickness userSickness)
         {
             try
             {
@@ -63,8 +63,8 @@ namespace dotnet_healthAPI_backend.Controllers
         }
 
         // PUT: api/UserSickness/5
-        [HttpPut("{idUser}")]
-        public async Task<ActionResult<UserSickness>> UpdateUserSickness(int idUser, [FromBody] List<UserSickness> userSicknesses)
+        [HttpPut]
+        public async Task<ActionResult<UserSickness>> UpdateUserSickness(int idUser, [FromBody] UserSickness userSicknesses)
         {
             try
             {
@@ -81,13 +81,13 @@ namespace dotnet_healthAPI_backend.Controllers
             }
         }
 
-        // DELETE: api/UserSickness/5
-        [HttpDelete("{idUserSickness}")]
-        public async Task<ActionResult<User>> DeleteUserSickness(int idUserSickness)
+        // DELETE: api/UserSickness
+        [HttpDelete]
+        public async Task<ActionResult<User>> DeleteUserSickness([FromBody] UserSickness userSicknesses)
         {
             try
             {
-                var userSickness = await _userSicknessService.DeleteUserSickness(idUserSickness);
+                var userSickness = await _userSicknessService.DeleteUserSickness(userSicknesses);
                 if (userSickness is null)
                 {
                     return NotFound();

@@ -12,9 +12,10 @@ namespace dotnet_healthAPI_backend.Services.Interfaces
     {
         Task<ActionResult<IEnumerable>> GetAllPatientSickness();
         Task<ActionResult<IEnumerable>> GetAllSicknessByPatient(int idPatient);
-        Task<ActionResult<List<UserSickness>>> CreateUserSickness(List<UserSickness> userSickness);
-        Task<ActionResult<List<UserSickness>>> UpdateUserSickness(List <UserSickness> userSickness);
-        Task<ActionResult<UserSickness>> DeleteUserSickness(int idUserSickness); //int idPatient, int idUserSickness
+        Task<ActionResult<UserSickness>> CreateUserSickness(UserSickness userSickness);
+        Task<ActionResult<UserSickness>> UpdateUserSickness(UserSickness userSickness);
+        Task<ActionResult<UserSickness>> DeleteUserSickness(UserSickness userSickness);
+        Task<ActionResult<IEnumerable>> GetPatientSickness(int idPatient);
 
     }
 }
